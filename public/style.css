@@ -277,7 +277,7 @@ body {
 #doc-title { font-weight: 500; }
 .compat-mode { opacity: 0.7; font-size: 11px; }
 
-.titlebar-right { margin-left: auto; }
+.titlebar-right { margin-left: auto; display: flex; align-items: center; gap: 4px; }
 .titlebar-btn {
   background: none;
   border: none;
@@ -294,15 +294,18 @@ body {
 .share-btn {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  border-radius: 3px;
-  padding: 3px 10px;
-  background: rgba(255,255,255,0.15);
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 5px 14px;
+  background: rgba(255,255,255,0.25);
+  color: white;
   margin-right: 8px;
+  cursor: pointer;
 }
 .share-btn:hover {
-  background: rgba(255,255,255,0.25) !important;
+  background: rgba(255,255,255,0.4) !important;
 }
 
 /* Ribbon */
