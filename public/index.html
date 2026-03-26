@@ -151,14 +151,12 @@
     <div class="document-area">
       <div class="document-page" id="document-page">
         <div id="messages-container"></div>
-        <div class="cursor-line" id="cursor-line">
-          <span class="blinking-cursor">|</span>
+        <div class="input-line" id="input-line">
+          <span class="msg-bullet input-bullet">○</span>
+          <input type="text" id="chat-input" class="inline-input" placeholder="" autocomplete="off">
         </div>
       </div>
     </div>
-
-    <!-- Hidden input for typing -->
-    <input type="text" id="chat-input" class="hidden-input" placeholder="" autocomplete="off">
 
     <!-- Status bar -->
     <div class="word-statusbar">

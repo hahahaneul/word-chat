@@ -495,26 +495,26 @@ body {
   content: '- ';
 }
 
-.cursor-line {
+.input-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   padding: 2px 0;
-  min-height: 20px;
 }
-.blinking-cursor {
-  animation: blink 1s step-end infinite;
-  color: #000;
-  font-weight: 100;
+.input-bullet {
+  margin-top: 3px;
 }
-@keyframes blink {
-  50% { opacity: 0; }
-}
-
-.hidden-input {
-  position: fixed;
-  top: -100px;
-  left: -100px;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
+.inline-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: '맑은 고딕', 'Malgun Gothic', sans-serif;
+  font-size: 10pt;
+  line-height: 1.8;
+  color: #1a1a1a;
+  background: transparent;
+  padding: 0;
+  caret-color: #000;
 }
 
 /* Status Bar */

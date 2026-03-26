@@ -83,7 +83,7 @@ function showChat(roomData) {
   totalWords = 0;
 
   roomData.messages.forEach((msg) => appendMessage(msg, false));
-  scrollToBottom();
+  scrollToInput();
 
   // Focus hidden input
   setTimeout(() => chatInput.focus(), 100);
@@ -143,7 +143,7 @@ function appendMessage(msg, scroll = true) {
   totalWords += msg.text.split(/\s+/).filter(Boolean).length;
   updateStatus();
 
-  if (scroll) scrollToBottom();
+  if (scroll) scrollToInput();
 }
 
 function updateStatus() {
@@ -157,30 +157,30 @@ socket.on('new-message', (msg) => {
   appendMessage(msg);
 });
 
-function scrollToBottom() {
+function scrollToInput() {
   requestAnimationFrame(() => {
-    documentArea.scrollTop = documentArea.scrollHeight;
+    const inputLine = document.getElementById('input-line');
+    if (inputLine) inputLine.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   });
 }
 
-// Input handling
-document.addEventListener('keydown', (e) => {
-  if (!currentRoomId) return;
-  if (e.key === 'Escape') {
-    showHome();
-    return;
-  }
-  chatInput.focus();
-});
+// Input handling - Korean IME safe
+let isComposing = false;
+
+chatInput.addEventListener('compositionstart', () => { isComposing = true; });
+chatInput.addEventListener('compositionend', () => { isComposing = false; });
 
 chatInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.shiftKey) {
+  if (e.key === 'Enter' && !isComposing) {
     e.preventDefault();
     const text = chatInput.value.trim();
     if (text && currentRoomId) {
       socket.emit('send-message', { roomId: currentRoomId, text });
       chatInput.value = '';
     }
+  }
+  if (e.key === 'Escape') {
+    showHome();
   }
 });
 
