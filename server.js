@@ -31,6 +31,9 @@ const sectionTitles = [
   '10. 결론 및 요약 (Conclusion)',
 ];
 
+// Bullet symbols assigned per user in each room
+const bullets = ['○', '●', '◎', '◇', '◆', '□', '■', '△', '▲', '▽', '▼', '☆', '★', '◈', '▣'];
+
 function createRoom(name, creatorId) {
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const room = {
@@ -39,9 +42,19 @@ function createRoom(name, creatorId) {
     messages: [],
     createdAt: new Date().toISOString(),
     users: new Set(),
+    userBullets: new Map(), // socketId -> bullet symbol
+    nextBulletIdx: 0,
   };
   rooms.set(id, room);
   return room;
+}
+
+function getBullet(room, socketId) {
+  if (!room.userBullets.has(socketId)) {
+    room.userBullets.set(socketId, bullets[room.nextBulletIdx % bullets.length]);
+    room.nextBulletIdx++;
+  }
+  return room.userBullets.get(socketId);
 }
 
 // No default rooms - rooms are created by users only
@@ -92,6 +105,7 @@ io.on('connection', (socket) => {
       text: text.trim(),
       timestamp: new Date().toISOString(),
       sectionHeading,
+      bullet: getBullet(room, socket.id),
     };
 
     room.messages.push(message);

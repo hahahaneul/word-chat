@@ -143,7 +143,7 @@ function appendMessage(msg, scroll = true) {
   // Main message with bullet
   const line = document.createElement('div');
   line.className = 'msg-line';
-  line.innerHTML = `<span class="msg-bullet">○</span><span>${escapeHtml(msg.text)}</span>`;
+  line.innerHTML = `<span class="msg-bullet">${msg.bullet || '○'}</span><span>${escapeHtml(msg.text)}</span>`;
   messagesContainer.appendChild(line);
 
   // Count words
