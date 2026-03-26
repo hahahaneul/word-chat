@@ -169,12 +169,12 @@ body {
   display: flex;
   align-items: center;
   padding: 10px 12px;
-  cursor: pointer;
+  cursor: default;
   transition: background 0.1s;
   border-bottom: 1px solid #f0f0f0;
 }
-.doc-item:hover {
-  background: #f5f7fa;
+.doc-item.fake-item:hover {
+  background: transparent;
 }
 .doc-icon {
   width: 32px;

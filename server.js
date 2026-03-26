@@ -44,29 +44,13 @@ function createRoom(name, creatorId) {
   return room;
 }
 
-// Create some default rooms
-createRoom('[별첨 1] 2026년 예비창업패키지 사업계획서 양식.docx');
-createRoom('Appendix A_심사양식.docx');
-createRoom('한글표시사항 밀키트.docx');
+// No default rooms - rooms are created by users only
 
 io.on('connection', (socket) => {
-  // Send room list
-  function sendRoomList() {
-    const roomList = Array.from(rooms.values()).map((r) => ({
-      id: r.id,
-      name: r.name,
-      createdAt: r.createdAt,
-      userCount: r.users.size,
-      messageCount: r.messages.length,
-    }));
-    io.emit('room-list', roomList);
-  }
 
-  sendRoomList();
-
-  socket.on('create-room', (name) => {
-    createRoom(name || '새 문서.docx');
-    sendRoomList();
+  socket.on('create-room', (name, callback) => {
+    const room = createRoom(name || '새 문서.docx');
+    if (typeof callback === 'function') callback(room.id);
   });
 
   socket.on('join-room', (roomId) => {
@@ -88,7 +72,7 @@ io.on('connection', (socket) => {
       name: room.name,
       messages: room.messages,
     });
-    sendRoomList();
+    io.to(roomId).emit('user-count', room.users.size);
   });
 
   socket.on('send-message', ({ roomId, text }) => {
@@ -119,16 +103,18 @@ io.on('connection', (socket) => {
       if (r.users.has(socket.id)) {
         r.users.delete(socket.id);
         socket.leave(id);
+        io.to(id).emit('user-count', r.users.size);
       }
     }
-    sendRoomList();
   });
 
   socket.on('disconnect', () => {
-    for (const [, r] of rooms) {
-      r.users.delete(socket.id);
+    for (const [id, r] of rooms) {
+      if (r.users.has(socket.id)) {
+        r.users.delete(socket.id);
+        io.to(id).emit('user-count', r.users.size);
+      }
     }
-    sendRoomList();
   });
 });
 

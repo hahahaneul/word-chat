@@ -68,6 +68,7 @@ function showHome() {
   onlineIndicator.style.display = 'none';
   currentRoomId = null;
   document.title = '문서1 - 호환성 모드 - Word';
+  window.history.pushState({}, '', '/');
   socket.emit('leave-room');
 }
 
@@ -89,29 +90,35 @@ function showChat(roomData) {
   setTimeout(() => chatInput.focus(), 100);
 }
 
-// Room list rendering
-socket.on('room-list', (rooms) => {
+// Static fake file list for decoration (not clickable, not linked to real rooms)
+const fakeFiles = [
+  { name: '[별첨 1] 2026년 예비창업패키지 사업계획서 양식.docx', path: '문서 » 참고자료', date: '3시간 전' },
+  { name: '2026_Q1_실적보고서_최종.docx', path: '바탕 화면 » 프로젝트 » 2026_Q1', date: '화 오전 9:29' },
+  { name: '주간업무보고_03월4주차.docx', path: '바탕 화면 » 업무보고', date: '화 오전 9:29' },
+  { name: 'Appendix A_심사양식.docx', path: '다운로드', date: '월 오후 5:26' },
+  { name: '한글표시사항 밀키트.docx', path: '문서 » 카카오톡 받은 파일', date: '월 오전 11:07' },
+  { name: '외식·카페 특화 AI 운영 과정 상세페이지.docx', path: '다운로드', date: '목 오후 3:54' },
+  { name: 'AI 자동화 & 업무 비서 구축 과정 상세페이지.docx', path: '다운로드', date: '목 오후 3:54' },
+];
+
+function renderFakeList() {
   roomList.innerHTML = '';
-  rooms.forEach((room) => {
+  fakeFiles.forEach((file) => {
     const el = document.createElement('div');
-    el.className = 'doc-item';
+    el.className = 'doc-item fake-item';
     el.innerHTML = `
       <div class="doc-icon">${wordIcon}</div>
       <div class="doc-info">
-        <div class="doc-name">${escapeHtml(room.name)}</div>
-        <div class="doc-path">${getPathForRoom(room.id)}</div>
+        <div class="doc-name">${escapeHtml(file.name)}</div>
+        <div class="doc-path">${file.path}</div>
       </div>
-      <div class="doc-date">${timeAgo(room.createdAt)}</div>
+      <div class="doc-date">${file.date}</div>
     `;
-    el.addEventListener('click', () => socket.emit('join-room', room.id));
     roomList.appendChild(el);
-
-    // Update online count
-    if (room.userCount) {
-      onlineCount.textContent = room.userCount;
-    }
   });
-});
+}
+
+renderFakeList();
 
 socket.on('room-joined', (roomData) => {
   showChat(roomData);
@@ -237,8 +244,6 @@ shareModal.addEventListener('click', (e) => {
   if (match) {
     const roomId = match[1];
     socket.emit('join-room', roomId);
-    // Clean up URL without reload
-    window.history.replaceState({}, '', '/');
   }
 })();
 
@@ -259,7 +264,11 @@ modalCreate.addEventListener('click', () => {
   let name = roomNameInput.value.trim();
   if (!name) name = '새 문서.docx';
   if (!name.endsWith('.docx') && !name.endsWith('.doc')) name += '.docx';
-  socket.emit('create-room', name);
+  socket.emit('create-room', name, (roomId) => {
+    // Auto-join and navigate to the room URL
+    window.history.pushState({}, '', '/room/' + roomId);
+    socket.emit('join-room', roomId);
+  });
   hideModal();
 });
 
@@ -274,12 +283,7 @@ modal.addEventListener('click', (e) => {
   if (e.target === modal) hideModal();
 });
 
-// Update online count from room list
-socket.on('room-list', (rooms) => {
-  if (currentRoomId) {
-    const current = rooms.find((r) => r.id === currentRoomId);
-    if (current) {
-      onlineCount.textContent = current.userCount;
-    }
-  }
+// Update online count
+socket.on('user-count', (count) => {
+  onlineCount.textContent = count;
 });
