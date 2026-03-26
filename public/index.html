@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문서1 - 호환성 모드 - Word</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%232b579a'/><text x='4' y='12' font-size='11' fill='white' font-weight='bold'>W</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HOME SCREEN (Word Start Page) -->
+  <div id="home-screen" class="screen active">
+    <div class="home-sidebar">
+      <div class="sidebar-top">
+        <button class="sidebar-btn active" id="btn-home">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10" stroke="currentColor" stroke-width="1.5"/><path d="M5 9V16H8V12H12V12H15V16V9" stroke="currentColor" stroke-width="1.5"/></svg>
+          홈
+        </button>
+        <button class="sidebar-btn" id="btn-new">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="2" width="12" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M7 10H13M10 7V13" stroke="currentColor" stroke-width="1.5"/></svg>
+          새로 만들기
+        </button>
+      </div>
+    </div>
+    <div class="home-content">
+      <h1 class="home-greeting">안녕하세요.</h1>
+      <div class="home-section">
+        <h2 class="section-title-collapse">
+          <span class="collapse-arrow">▼</span> 새로 만들기
+        </h2>
+        <div class="template-row">
+          <div class="template-card" id="new-doc-card">
+            <div class="template-preview blank">
+              <svg width="40" height="40" viewBox="0 0 40 40"><rect x="8" y="4" width="24" height="32" rx="2" fill="none" stroke="#666" stroke-width="1.5"/><path d="M12 12H28M12 16H28M12 20H24" stroke="#999" stroke-width="1"/></svg>
+            </div>
+            <span class="template-label">새 문서</span>
+          </div>
+        </div>
+      </div>
+      <div class="home-section">
+        <div class="tab-bar">
+          <button class="tab-btn active">최근 항목</button>
+          <button class="tab-btn">즐겨찾기</button>
+          <button class="tab-btn">나와 공유</button>
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" fill="none" stroke="#666" stroke-width="1.5"/><path d="M11 11L14 14" stroke="#666" stroke-width="1.5"/></svg>
+            <input type="text" placeholder="검색" id="search-input">
+          </div>
+        </div>
+        <div class="doc-list-header">
+          <span class="col-name">이름</span>
+          <span class="col-date">수정한 날짜</span>
+        </div>
+        <div id="room-list" class="doc-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT SCREEN (Word Document Editor) -->
+  <div id="chat-screen" class="screen">
+    <!-- Title bar -->
+    <div class="word-titlebar">
+      <div class="titlebar-left">
+        <div class="quick-access">
+          <span class="qa-label">자동 저장</span>
+          <span class="qa-toggle off"></span>
+          <span class="qa-sep"></span>
+          <svg class="qa-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M3 13H13" stroke="#444" stroke-width="1.5"/><path d="M4 9L8 5L12 9" stroke="#444" stroke-width="1.5"/></svg>
+          <svg class="qa-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6L8 10L12 6" stroke="#444" stroke-width="1.5"/></svg>
+          <svg class="qa-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M3 5L7 9L13 3" stroke="#444" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+      <div class="titlebar-center">
+        <span id="doc-title">문서1</span>
+        <span class="compat-mode"> - 호환성 모드 ∨</span>
+      </div>
+      <div class="titlebar-right">
+        <button class="titlebar-btn share-btn" id="btn-share" title="공유">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="11" cy="3" r="2" stroke="white" stroke-width="1.2"/><circle cx="3" cy="7" r="2" stroke="white" stroke-width="1.2"/><circle cx="11" cy="11" r="2" stroke="white" stroke-width="1.2"/><path d="M5 6L9 4M5 8L9 10" stroke="white" stroke-width="1.2"/></svg>
+          공유
+        </button>
+        <button class="titlebar-btn" id="btn-back" title="뒤로가기">✕</button>
+      </div>
+    </div>
+
+    <!-- Ribbon -->
+    <div class="word-ribbon">
+      <div class="ribbon-tabs">
+        <button class="ribbon-tab">파일</button>
+        <button class="ribbon-tab active">홈</button>
+        <button class="ribbon-tab">삽입</button>
+        <button class="ribbon-tab">그리기</button>
+        <button class="ribbon-tab">디자인</button>
+        <button class="ribbon-tab">레이아웃</button>
+        <button class="ribbon-tab">참조</button>
+        <button class="ribbon-tab">편집</button>
+        <button class="ribbon-tab">검토</button>
+        <button class="ribbon-tab">보기</button>
+      </div>
+      <div class="ribbon-content">
+        <div class="ribbon-group">
+          <div class="ribbon-row">
+            <button class="ribbon-btn-icon paste-btn">
+              <svg width="28" height="28" viewBox="0 0 28 28"><rect x="7" y="3" width="14" height="4" rx="1" fill="#dba44e"/><rect x="5" y="6" width="18" height="18" rx="2" fill="none" stroke="#666" stroke-width="1.2"/></svg>
+              <span>붙여넣기</span>
+            </button>
+          </div>
+          <span class="ribbon-group-label">클립보드</span>
+        </div>
+        <div class="ribbon-sep"></div>
+        <div class="ribbon-group font-group">
+          <div class="ribbon-row">
+            <select class="font-select"><option>맑은 고딕</option></select>
+            <select class="font-size"><option>10</option></select>
+          </div>
+          <div class="ribbon-row">
+            <button class="ribbon-mini-btn"><b>가</b></button>
+            <button class="ribbon-mini-btn"><i>가</i></button>
+            <button class="ribbon-mini-btn"><u>가</u></button>
+            <button class="ribbon-mini-btn">가<sub>2</sub></button>
+            <button class="ribbon-mini-btn">가<sup>2</sup></button>
+          </div>
+          <span class="ribbon-group-label">글꼴</span>
+        </div>
+        <div class="ribbon-sep"></div>
+        <div class="ribbon-group">
+          <div class="ribbon-row">
+            <button class="ribbon-mini-btn">≡</button>
+            <button class="ribbon-mini-btn">≡</button>
+            <button class="ribbon-mini-btn">≡</button>
+          </div>
+          <span class="ribbon-group-label">단락</span>
+        </div>
+        <div class="ribbon-sep"></div>
+        <div class="ribbon-group">
+          <button class="ribbon-btn-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24"><text x="4" y="18" font-size="16" fill="#2b579a" font-weight="bold">가</text></svg>
+            <span>스타일</span>
+          </button>
+          <span class="ribbon-group-label">스타일</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ruler -->
+    <div class="word-ruler">
+      <div class="ruler-marks"></div>
+    </div>
+
+    <!-- Document Area -->
+    <div class="document-area">
+      <div class="document-page" id="document-page">
+        <div id="messages-container"></div>
+        <div class="cursor-line" id="cursor-line">
+          <span class="blinking-cursor">|</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden input for typing -->
+    <input type="text" id="chat-input" class="hidden-input" placeholder="" autocomplete="off">
+
+    <!-- Status bar -->
+    <div class="word-statusbar">
+      <div class="statusbar-left">
+        <span id="page-count">1/1 페이지</span>
+        <span id="word-count">0개 단어</span>
+        <span>한국어</span>
+      </div>
+      <div class="statusbar-right">
+        <span class="statusbar-icon">📖</span>
+        <span class="view-mode">디스플레이 글꼴</span>
+        <span class="zoom-control">
+          <span class="zoom-minus">−</span>
+          <span class="zoom-bar"></span>
+          <span class="zoom-plus">+</span>
+          <span>100%</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Room Modal -->
+  <div id="new-room-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h3>새 문서 만들기</h3>
+      <input type="text" id="room-name-input" placeholder="문서 이름 (예: 기획안.docx)" maxlength="50">
+      <div class="modal-actions">
+        <button id="modal-create" class="modal-btn primary">만들기</button>
+        <button id="modal-cancel" class="modal-btn">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div id="share-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h3>문서 공유</h3>
+      <p style="font-size:13px;color:#666;margin-bottom:12px;">아래 링크를 복사하여 공유하세요.</p>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="share-link" readonly style="flex:1;">
+        <button id="share-copy" class="modal-btn primary">복사</button>
+      </div>
+      <div class="modal-actions">
+        <button id="share-close" class="modal-btn">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Online users indicator -->
+  <div id="online-indicator" class="online-indicator" style="display:none;">
+    <span class="online-dot"></span>
+    <span id="online-count">0</span>명 접속 중
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
