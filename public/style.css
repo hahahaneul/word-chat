@@ -657,3 +657,38 @@ body {
 ::-webkit-scrollbar-track { background: #e8e8e8; }
 ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: #999; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .home-sidebar { width: 48px; }
+  .sidebar-btn { font-size: 8px; padding: 8px 2px; }
+  .home-content { padding: 20px 16px; }
+  .home-greeting { font-size: 20px; }
+
+  .word-titlebar { font-size: 10px; }
+  .titlebar-center { font-size: 10px; }
+  .compat-mode { display: none; }
+  .share-btn { padding: 4px 10px; font-size: 11px; }
+
+  .word-ribbon { display: none; }
+  .word-ruler { display: none; }
+
+  .pages-container { padding: 8px 0; gap: 12px; }
+  .document-page {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    padding: 24px 16px;
+    box-shadow: none;
+    border-bottom: 2px solid #ccc;
+    overflow: visible;
+  }
+  .document-page .page-content { height: auto; }
+
+  .inline-input { font-size: 16px !important; } /* Prevent iOS zoom on focus */
+
+  .online-indicator { bottom: 28px; right: 8px; font-size: 10px; }
+  .word-statusbar { font-size: 10px; }
+  .statusbar-right .zoom-control { display: none; }
+  .statusbar-right .view-mode { display: none; }
+}

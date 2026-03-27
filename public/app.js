@@ -84,6 +84,11 @@ function showChat(roomData) {
 
 // ===== PAGE RENDERING =====
 function renderAllPages() {
+  // Save current input value before destroying
+  const oldInput = document.getElementById('chat-input');
+  const savedValue = oldInput ? oldInput.value : '';
+  const wasFocused = oldInput && document.activeElement === oldInput;
+
   pagesContainer.innerHTML = '';
 
   if (messages.length === 0) {
@@ -98,6 +103,15 @@ function renderAllPages() {
 
   addInputToLastPage();
   updateStatus();
+
+  // Restore input value and focus
+  const newInput = document.getElementById('chat-input');
+  if (newInput && savedValue) {
+    newInput.value = savedValue;
+  }
+  if (newInput && wasFocused) {
+    newInput.focus();
+  }
 }
 
 function distributeMessages() {
@@ -213,33 +227,30 @@ function addInputToLastPage() {
   inputLine.id = 'input-line';
   inputLine.innerHTML = `<span class="msg-bullet input-bullet">○</span><input type="text" id="chat-input" class="inline-input" placeholder="" autocomplete="off">`;
   msgContainer.appendChild(inputLine);
-
-  setupInputHandlers();
 }
 
-function setupInputHandlers() {
-  const chatInput = document.getElementById('chat-input');
-  if (!chatInput) return;
-
-  let isComposing = false;
-
-  chatInput.addEventListener('compositionstart', () => { isComposing = true; });
-  chatInput.addEventListener('compositionend', () => { isComposing = false; });
-
-  chatInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !isComposing) {
-      e.preventDefault();
-      const text = chatInput.value.trim();
-      if (text && currentRoomId) {
-        socket.emit('send-message', { roomId: currentRoomId, text });
-        chatInput.value = '';
-      }
+// Global input handler using event delegation (registered once)
+let isComposing = false;
+document.addEventListener('compositionstart', (e) => {
+  if (e.target.id === 'chat-input') isComposing = true;
+});
+document.addEventListener('compositionend', (e) => {
+  if (e.target.id === 'chat-input') isComposing = false;
+});
+document.addEventListener('keydown', (e) => {
+  if (e.target.id !== 'chat-input') return;
+  if (e.key === 'Enter' && !isComposing) {
+    e.preventDefault();
+    const text = e.target.value.trim();
+    if (text && currentRoomId) {
+      socket.emit('send-message', { roomId: currentRoomId, text });
+      e.target.value = '';
     }
-    if (e.key === 'Escape') {
-      showHome();
-    }
-  });
-}
+  }
+  if (e.key === 'Escape') {
+    showHome();
+  }
+});
 
 // ===== MESSAGE HANDLING =====
 function appendMessage(msg) {
