@@ -438,17 +438,31 @@ body {
   background: #bbb;
   cursor: text;
 }
+.pages-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 40px;
+}
 .document-page {
   width: 700px;
-  min-height: 900px;
+  height: 900px;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  padding: 72px 72px 72px 72px;
+  padding: 72px;
   font-family: '맑은 고딕', 'Malgun Gothic', sans-serif;
   font-size: 10pt;
   line-height: 1.8;
   color: #1a1a1a;
   position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.document-page .page-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Messages */

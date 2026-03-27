@@ -14,6 +14,14 @@ app.get('/room/:roomId', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// PPT version routes
+app.get('/ppt', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'ppt.html'));
+});
+app.get('/ppt/room/:roomId', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'ppt.html'));
+});
+
 // In-memory chat rooms
 const rooms = new Map();
 

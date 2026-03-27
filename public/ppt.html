@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프레젠테이션1 - PowerPoint</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%23d24726'/><text x='4' y='12' font-size='11' fill='white' font-weight='bold'>P</text></svg>">
+  <link rel="stylesheet" href="/ppt-style.css">
+</head>
+<body>
+
+  <!-- ========== HOME SCREEN ========== -->
+  <div id="home-screen" class="screen active">
+    <div class="home-sidebar">
+      <button class="sidebar-btn active" id="btn-home">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="white"><path d="M10 2L2 8v10h5v-6h6v6h5V8L10 2z"/></svg>
+        <span>홈</span>
+      </button>
+      <button class="sidebar-btn" id="btn-new">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="white"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2" fill="none"/></svg>
+        <span>새로 만들기</span>
+      </button>
+    </div>
+    <div class="home-content">
+      <h1 class="greeting">안녕하세요.</h1>
+      <div class="section-header">
+        <span class="section-toggle">▼</span> 새로 만들기
+        <a class="more-link" href="#">추가 서식 파일 →</a>
+      </div>
+      <div class="template-section">
+        <div class="template-card" id="new-doc-card">
+          <div class="template-preview ppt-preview">
+            <svg width="48" height="36" viewBox="0 0 48 36" fill="none"><rect x="2" y="2" width="44" height="32" rx="2" fill="#fff" stroke="#ccc"/><rect x="6" y="6" width="16" height="4" fill="#d24726"/><rect x="6" y="14" width="36" height="2" fill="#ddd"/><rect x="6" y="20" width="30" height="2" fill="#ddd"/><rect x="6" y="26" width="24" height="2" fill="#ddd"/></svg>
+          </div>
+          <div class="template-label">새 프레젠테이션</div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active">최근 항목</button>
+        <button class="tab-btn">즐겨찾기</button>
+        <button class="tab-btn">나와 공유</button>
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="검색">
+        </div>
+      </div>
+
+      <div class="list-header">
+        <span class="col-name">이름</span>
+        <span class="col-date">수정한 날짜</span>
+      </div>
+
+      <!-- Fake static document list (decoration only, not clickable) -->
+      <div id="fake-doc-list">
+        <div class="doc-item fake">
+          <div class="doc-icon">P</div>
+          <div class="doc-info">
+            <div class="doc-name">2026년 사업계획 발표자료.pptx</div>
+            <div class="doc-path">문서 » 참고자료</div>
+          </div>
+          <div class="doc-date">방금 전</div>
+        </div>
+        <div class="doc-item fake">
+          <div class="doc-icon">P</div>
+          <div class="doc-info">
+            <div class="doc-name">Q1 실적보고 프레젠테이션.pptx</div>
+            <div class="doc-path">바탕 화면 » 프로젝트 » 2026_Q1</div>
+          </div>
+          <div class="doc-date">방금 전</div>
+        </div>
+        <div class="doc-item fake">
+          <div class="doc-icon">P</div>
+          <div class="doc-info">
+            <div class="doc-name">신규 서비스 제안서.pptx</div>
+            <div class="doc-path">다운로드 » 이메일첨부</div>
+          </div>
+          <div class="doc-date">방금 전</div>
+        </div>
+        <div class="doc-item fake">
+          <div class="doc-icon">P</div>
+          <div class="doc-info">
+            <div class="doc-name">팀 킥오프 미팅.pptx</div>
+            <div class="doc-path">문서 » 회의자료</div>
+          </div>
+          <div class="doc-date">방금 전</div>
+        </div>
+        <div class="doc-item fake">
+          <div class="doc-icon">P</div>
+          <div class="doc-info">
+            <div class="doc-name">브랜드 가이드라인 v2.pptx</div>
+            <div class="doc-path">바탕 화면 » 디자인 » 브랜딩</div>
+          </div>
+          <div class="doc-date">방금 전</div>
+        </div>
+      </div>
+
+      <!-- Real room list -->
+      <div id="room-list"></div>
+    </div>
+  </div>
+
+  <!-- ========== CHAT SCREEN (PPT Editor) ========== -->
+  <div id="chat-screen" class="screen">
+    <!-- Title Bar -->
+    <div class="ppt-titlebar">
+      <div class="quick-access">
+        <span class="qa-label">자동 저장</span>
+        <span class="qa-toggle">●</span>
+        <span class="qa-sep"></span>
+        <span class="qa-icon" title="되돌리기">↩</span>
+        <span class="qa-icon" title="다시 실행">↪</span>
+        <span class="qa-icon dim">▼</span>
+      </div>
+      <div class="titlebar-center">
+        <span id="doc-title">프레젠테이션1.pptx</span>
+        <span class="compat-label">- PowerPoint</span>
+      </div>
+      <div class="titlebar-right">
+        <button class="share-btn" id="share-btn">🔗 공유</button>
+        <button class="close-btn" id="back-btn">✕</button>
+      </div>
+    </div>
+
+    <!-- Ribbon -->
+    <div class="ppt-ribbon">
+      <div class="ribbon-tabs">
+        <button class="ribbon-tab" id="tab-file">파일</button>
+        <button class="ribbon-tab active" id="tab-home">홈</button>
+        <button class="ribbon-tab">삽입</button>
+        <button class="ribbon-tab">디자인</button>
+        <button class="ribbon-tab">전환</button>
+        <button class="ribbon-tab">애니메이션</button>
+        <button class="ribbon-tab">슬라이드 쇼</button>
+        <button class="ribbon-tab">검토</button>
+        <button class="ribbon-tab">보기</button>
+      </div>
+      <div class="ribbon-content">
+        <div class="ribbon-group">
+          <div class="ribbon-btn-icon">
+            <span style="font-size:20px">📋</span>
+            <span>붙여넣기</span>
+          </div>
+          <div class="ribbon-sep"></div>
+          <span class="ribbon-group-label">클립보드</span>
+        </div>
+        <div class="ribbon-group">
+          <div class="ribbon-row">
+            <select class="font-select"><option>맑은 고딕</option></select>
+            <select class="font-size"><option>18</option></select>
+          </div>
+          <div class="ribbon-row">
+            <button class="ribbon-mini-btn"><b>가</b></button>
+            <button class="ribbon-mini-btn"><i>가</i></button>
+            <button class="ribbon-mini-btn"><u>가</u></button>
+            <button class="ribbon-mini-btn">가<sub>2</sub></button>
+            <button class="ribbon-mini-btn">가<sup>2</sup></button>
+          </div>
+          <span class="ribbon-group-label">글꼴</span>
+        </div>
+        <div class="ribbon-group">
+          <div class="ribbon-row">
+            <button class="ribbon-mini-btn">☰</button>
+            <button class="ribbon-mini-btn">☰</button>
+            <button class="ribbon-mini-btn">☰</button>
+          </div>
+          <span class="ribbon-group-label">단락</span>
+        </div>
+        <div class="ribbon-group">
+          <div class="ribbon-row">
+            <button class="ribbon-mini-btn shape-btn">□</button>
+            <button class="ribbon-mini-btn shape-btn">○</button>
+            <button class="ribbon-mini-btn shape-btn">→</button>
+          </div>
+          <span class="ribbon-group-label">그리기</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Editor Area -->
+    <div class="ppt-editor">
+      <!-- Slide Panel (Left) -->
+      <div class="slide-panel" id="slide-panel">
+        <!-- Slide thumbnails will be generated here -->
+      </div>
+
+      <!-- Slide Area (Center) -->
+      <div class="slide-area" id="slide-area">
+        <div class="slide-container" id="slide-container">
+          <!-- Slides will be rendered here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="ppt-statusbar">
+      <span id="slide-info">슬라이드 1/1</span>
+      <span class="status-sep">|</span>
+      <span>한국어</span>
+      <div class="status-right">
+        <div class="online-indicator">
+          <span class="online-dot"></span>
+          <span id="online-count">1</span> 명 접속 중
+        </div>
+        <span class="status-sep">|</span>
+        <span>디스플레이 글꼴</span>
+        <span class="zoom-controls">
+          <span>−</span>
+          <input type="range" min="50" max="200" value="100" class="zoom-slider">
+          <span>+</span>
+          <span>100%</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Room Modal -->
+  <div class="modal-overlay" id="modal-new" style="display:none">
+    <div class="modal-box">
+      <h3>새 프레젠테이션 만들기</h3>
+      <input type="text" id="modal-room-name" placeholder="프레젠테이션 이름 (예: 발표자료.pptx)">
+      <div class="modal-actions">
+        <button class="modal-btn primary" id="modal-create">만들기</button>
+        <button class="modal-btn" id="modal-cancel">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div class="modal-overlay" id="modal-share" style="display:none">
+    <div class="modal-box">
+      <h3>프레젠테이션 공유</h3>
+      <p>아래 링크를 복사하여 공유하세요.</p>
+      <div class="share-link-row">
+        <input type="text" id="share-link" readonly>
+        <button class="modal-btn primary" id="copy-link">복사</button>
+      </div>
+      <button class="modal-btn" id="close-share">닫기</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/ppt-app.js"></script>
+</body>
+</html>
